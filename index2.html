@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .background-card {
+            background-color: #A3C1AD;
+            padding: 30px;
+            border-radius: 18px;
+            margin-top: 50px; /* Space below the toolbar */
+        }
+        table {
+            width: 80%;
+            margin: 50px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!-- Google Material Design CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <!-- Toolbar -->
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper green">
+                <a href="#" class="brand-logo center">Contact Us</a>
+                <ul class="right">
+                    <li><a href="index.php" class="waves-effect waves-light btn">Home</a></li>
+                    <li><a href="index2.html" class="waves-effect waves-light btn">View Details</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic content will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Google Material Design JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Send form data using AJAX
+            $.ajax({
+                type: 'GET',
+                url: 'getdata.php', // Path to your server-side script
+                success: function(response) {
+                    try {
+                    
+                        var tableBody = $('#dataTable tbody');
+                        tableBody.empty(); // Clear existing table rows if any
+
+                        // Iterate through each item in the response and append to the table
+                        response.forEach(function(item) {
+                            var row = $('<tr></tr>');
+                            row.append($('<td></td>').text(item.name));
+                            row.append($('<td></td>').text(item.message));
+                            tableBody.append(row);
+                        });
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        console.error('Response:', response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
